@@ -1,3 +1,4 @@
+#include "zpch.h"
 #include "Log.h"
 
 namespace Zero {

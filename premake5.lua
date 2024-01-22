@@ -10,6 +10,12 @@ workspace "Zero"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Zero/vendor/GLFW/include"
+
+include "Zero/vendor/GLFW"
+
 project "Zero"
 	location "Zero"
 	kind "SharedLib"
@@ -17,6 +23,9 @@ project "Zero"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	pchheader "zpch.h"
+	pchsource "Zero/src/zpch.cpp"
 
 	files
 	{
@@ -26,13 +35,21 @@ project "Zero"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links 
+	{ 
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "10.0.22000.0"
+		systemversion "latest"
 
 		defines
 		{
@@ -85,7 +102,7 @@ project "SandBox"
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
-		systemversion "10.0.22000.0"
+		systemversion "latest"
 
 		defines
 		{

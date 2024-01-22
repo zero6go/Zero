@@ -1,10 +1,9 @@
 #pragma once
 
-#include <memory>
-
 #include "Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/fmt/ostr.h"
 
 namespace Zero {
 	class ZERO_API Log
@@ -30,7 +29,7 @@ namespace Zero {
 
 //Client log macros
 #define ZERO_TRACE(...)		  ::Zero::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define ZERO_INFO(...)			  ::Zero::Log::GetClientLogger()->info(__VA_ARGS__)
-#define ZERO_WARN(...)			  ::Zero::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define ZERO_INFO(...)		  ::Zero::Log::GetClientLogger()->info(__VA_ARGS__)
+#define ZERO_WARN(...)		  ::Zero::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define ZERO_ERROR(...)		  ::Zero::Log::GetClientLogger()->error(__VA_ARGS__)
 #define ZERO_FATAL(...)		  ::Zero::Log::GetClientLogger()->fatal(__VA_ARGS__)

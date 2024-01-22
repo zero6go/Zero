@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Zero">
       <UniqueIdentifier>{6526907C-515D-910D-FA49-7710E65F0D0F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Zero\Events">
+      <UniqueIdentifier>{A90E9881-15C4-1077-9EB8-0A4E0A6D077B}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\WindowsWindow.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
     <ClInclude Include="src\Zero.h" />
     <ClInclude Include="src\Zero\Application.h">
       <Filter>Zero</Filter>
@@ -16,16 +25,36 @@
     <ClInclude Include="src\Zero\EntryPoint.h">
       <Filter>Zero</Filter>
     </ClInclude>
+    <ClInclude Include="src\Zero\Events\ApplicationEvent.h">
+      <Filter>Zero\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Zero\Events\Event.h">
+      <Filter>Zero\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Zero\Events\KeyEvent.h">
+      <Filter>Zero\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Zero\Events\MouseEvent.h">
+      <Filter>Zero\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Zero\Log.h">
       <Filter>Zero</Filter>
     </ClInclude>
+    <ClInclude Include="src\Zero\Window.h">
+      <Filter>Zero</Filter>
+    </ClInclude>
+    <ClInclude Include="src\zpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\WindowsWindow.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
     <ClCompile Include="src\Zero\Application.cpp">
       <Filter>Zero</Filter>
     </ClCompile>
     <ClCompile Include="src\Zero\Log.cpp">
       <Filter>Zero</Filter>
     </ClCompile>
+    <ClCompile Include="src\zpch.cpp" />
   </ItemGroup>
 </Project>
