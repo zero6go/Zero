@@ -13,8 +13,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Zero/vendor/GLFW/include"
+IncludeDir["Glad"] = "Zero/vendor/Glad/include"
+IncludeDir["ImGui"] = "Zero/vendor/imgui"
 
 include "Zero/vendor/GLFW"
+include "Zero/vendor/Glad"
+include "Zero/vendor/imgui"
 
 project "Zero"
 	location "Zero"
@@ -37,12 +41,16 @@ project "Zero"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links 
 	{ 
 		"GLFW",
+		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
@@ -54,7 +62,8 @@ project "Zero"
 		defines
 		{
 			"ZERO_PLATFORM_WINDOWS",
-			"ZERO_BUILD_DLL"
+			"ZERO_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -64,14 +73,17 @@ project "Zero"
 
 	filter "configurations:Debug"
 		defines "ZERO_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ZERO_RELEASE"
+		buildoptions "/MD"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "ZERO_DIST"
+		buildoptions "/MD"
 		symbols "On"
 
 project "SandBox"
@@ -111,12 +123,15 @@ project "SandBox"
 
 	filter "configurations:Debug"
 		defines "ZERO_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ZERO_RELEASE"
+		buildoptions "/MD"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "ZERO_DIST"
+		buildoptions "/MD"
 		symbols "On"

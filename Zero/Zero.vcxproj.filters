@@ -4,14 +4,23 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Zero">
       <UniqueIdentifier>{6526907C-515D-910D-FA49-7710E65F0D0F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Zero\Events">
       <UniqueIdentifier>{A90E9881-15C4-1077-9EB8-0A4E0A6D077B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Zero\ImGui">
+      <UniqueIdentifier>{4F13579F-3BCB-98EC-A4D2-714890A933DD}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\WindowsWindow.h">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -37,6 +46,15 @@
     <ClInclude Include="src\Zero\Events\MouseEvent.h">
       <Filter>Zero\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Zero\ImGui\ImGuiLayer.h">
+      <Filter>Zero\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Zero\Layer.h">
+      <Filter>Zero</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Zero\LayerStack.h">
+      <Filter>Zero</Filter>
+    </ClInclude>
     <ClInclude Include="src\Zero\Log.h">
       <Filter>Zero</Filter>
     </ClInclude>
@@ -46,10 +64,22 @@
     <ClInclude Include="src\zpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\WindowsWindow.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
     <ClCompile Include="src\Zero\Application.cpp">
+      <Filter>Zero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Zero\ImGui\ImGuiLayer.cpp">
+      <Filter>Zero\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Zero\Layer.cpp">
+      <Filter>Zero</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Zero\LayerStack.cpp">
       <Filter>Zero</Filter>
     </ClCompile>
     <ClCompile Include="src\Zero\Log.cpp">
