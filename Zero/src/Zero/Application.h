@@ -7,6 +7,8 @@
 #include "Zero/Events/Event.h"
 #include "Zero/Events/ApplicationEvent.h"
 
+#include "Zero/ImGui/ImGuiLayer.h"
+
 namespace Zero {
 
 	class ZERO_API Application
@@ -29,6 +31,7 @@ namespace Zero {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:

@@ -1,5 +1,6 @@
 workspace "Zero"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -15,6 +16,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Zero/vendor/GLFW/include"
 IncludeDir["Glad"] = "Zero/vendor/Glad/include"
 IncludeDir["ImGui"] = "Zero/vendor/imgui"
+IncludeDir["glm"] = "Zero/vendor/glm"
 
 include "Zero/vendor/GLFW"
 include "Zero/vendor/Glad"
@@ -22,8 +24,10 @@ include "Zero/vendor/imgui"
 
 project "Zero"
 	location "Zero"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -34,7 +38,14 @@ project "Zero"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -43,7 +54,8 @@ project "Zero"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links 
@@ -55,8 +67,6 @@ project "Zero"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -66,30 +76,27 @@ project "Zero"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-		}
-
 	filter "configurations:Debug"
 		defines "ZERO_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ZERO_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "ZERO_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		symbols "On"
 
 project "SandBox"
 	location "SandBox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -103,7 +110,9 @@ project "SandBox"
 	includedirs
 	{
 		"Zero/vendor/spdlog/include",
-		"Zero/src"
+		"Zero/src",
+		"Zero/vendor",
+		"%{IncludeDir.glm}"
 	}
 
 	links
@@ -112,8 +121,6 @@ project "SandBox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -123,15 +130,15 @@ project "SandBox"
 
 	filter "configurations:Debug"
 		defines "ZERO_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ZERO_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		symbols "On"
 
 	filter "configurations:Dist"
 		defines "ZERO_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		symbols "On"

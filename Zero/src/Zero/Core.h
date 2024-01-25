@@ -1,14 +1,22 @@
 #pragma once
 
 #ifdef ZERO_PLATFORM_WINDOWS
-	#ifdef ZERO_BUILD_DLL
-		#define ZERO_API __declspec(dllexport)
+	#if ZERO_DYNAMIC_LINK
+		#ifdef ZERO_BUILD_DLL
+			#define ZERO_API __declspec(dllexport)
+		#else
+			#define ZERO_API __declspec(dllimport)
+		#endif 
 	#else
-		#define ZERO_API __declspec(dllimport)
-	#endif 
+		#define ZERO_API
+	#endif
 #else
 	#error Zero only support Windows!
 #endif 
+
+#ifdef ZERO_DEBUG
+	#define ZERO_ENABLE_ASSERTS
+#endif
 
 #ifdef ZERO_ENABLE_ASSERTS
 	#define ZERO_ASSERT(x, ...) { if(!(x)) { ZERO_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
@@ -19,3 +27,5 @@
 #endif
 
 #define BIT(x) (1 << x)
+
+#define ZERO_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)

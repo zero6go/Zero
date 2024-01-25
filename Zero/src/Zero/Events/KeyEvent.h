@@ -2,7 +2,6 @@
 
 #include "Event.h"
 
-
 namespace Zero {
 
 	class ZERO_API KeyEvent : public Event
@@ -52,5 +51,21 @@ namespace Zero {
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
+	};
+
+	class ZERO_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
 	};
 }

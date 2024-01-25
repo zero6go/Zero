@@ -7,5 +7,9 @@
 
 #include "Zero/ImGui/ImGuiLayer.h"
 
+#include "Zero/Input.h"
+#include "Zero/KeyCodes.h"
+#include "Zero/MouseButtonCodes.h"
+
 //³ÌÐòÈë¿Ú
 #include "Zero/EntryPoint.h"
