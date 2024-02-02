@@ -1,57 +1,72 @@
 #include "zpch.h"
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
+
+#include "Zero/Core/Input.h"
 
 #include "Zero/Events/KeyEvent.h"
 #include "Zero/Events/MouseEvent.h"
 #include "Zero/Events/ApplicationEvent.h"
 
-#include <glad/glad.h>
+#include "Zero/Renderer/Renderer.h"
+
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Zero {
 
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		ZERO_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
-	{
-		return new WindowsWindow(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
 		ZERO_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
+			ZERO_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
-			ZERO_CORE_ASSERT(success, "Could not intialize GLFW!");
+			ZERO_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
+		{
+			ZERO_PROFILE_SCOPE("glfwCreateWindow");
+			#if defined(ZERO_DEBUG)
+						if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+							glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			#endif
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+			++s_GLFWWindowCount;
+		}
+
+		m_Context = GraphicsContext::Create(m_Window);
+
+		m_Context->Init();
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		ZERO_CORE_ASSERT(status, "Failed to initialize Glad!");
 		SetVSync(true);
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -146,17 +161,29 @@ namespace Zero {
 
 	void WindowsWindow::Shutdown()
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
+		--s_GLFWWindowCount;
+
+		if (s_GLFWWindowCount == 0)
+		{
+			glfwTerminate();
+		}
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		ZERO_PROFILE_FUNCTION();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else

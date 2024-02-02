@@ -1,6 +1,8 @@
+include "./vendor/premake/premake_customization/solution_items.lua"
+
 workspace "Zero"
-	architecture "x64"
-	startproject "Sandbox"
+	architecture "x86_64"
+	startproject "Zeronut"
 
 	configurations
 	{
@@ -9,136 +11,34 @@ workspace "Zero"
 		"Dist"
 	}
 
+	solution_items
+	{
+		".editorconfig"
+	}
+
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "Zero/vendor/GLFW/include"
-IncludeDir["Glad"] = "Zero/vendor/Glad/include"
-IncludeDir["ImGui"] = "Zero/vendor/imgui"
-IncludeDir["glm"] = "Zero/vendor/glm"
+IncludeDir["GLFW"] = "%{wks.location}/Zero/vendor/GLFW/include"
+IncludeDir["Glad"] = "%{wks.location}/Zero/vendor/Glad/include"
+IncludeDir["ImGui"] = "%{wks.location}/Zero/vendor/imgui"
+IncludeDir["glm"] = "%{wks.location}/Zero/vendor/glm"
+IncludeDir["stb_image"] = "%{wks.location}/Zero/vendor/stb_image"
+IncludeDir["entt"] = "%{wks.location}/Zero/vendor/entt/include"
 
-include "Zero/vendor/GLFW"
-include "Zero/vendor/Glad"
-include "Zero/vendor/imgui"
+group "Dependencies"
+	include "vendor/premake"
+	include "Zero/vendor/GLFW"
+	include "Zero/vendor/Glad"
+	include "Zero/vendor/imgui"
+group ""
 
-project "Zero"
-	location "Zero"
-	kind "StaticLib"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	pchheader "zpch.h"
-	pchsource "Zero/src/zpch.cpp"
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",
-	}
-
-	defines
-	{
-		"_CRT_SECURE_NO_WARNINGS"
-	}
-
-	includedirs
-	{
-		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
-	}
-
-	links 
-	{ 
-		"GLFW",
-		"Glad",
-		"ImGui",
-		"opengl32.lib"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"ZERO_PLATFORM_WINDOWS",
-			"ZERO_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
-
-	filter "configurations:Debug"
-		defines "ZERO_DEBUG"
-		runtime "Debug"
-		symbols "On"
-
-	filter "configurations:Release"
-		defines "ZERO_RELEASE"
-		runtime "Release"
-		symbols "On"
-
-	filter "configurations:Dist"
-		defines "ZERO_DIST"
-		runtime "Release"
-		symbols "On"
-
-project "SandBox"
-	location "SandBox"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Zero/vendor/spdlog/include",
-		"Zero/src",
-		"Zero/vendor",
-		"%{IncludeDir.glm}"
-	}
-
-	links
-	{
-		"Zero"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"ZERO_PLATFORM_WINDOWS",
-		}
-
-	filter "configurations:Debug"
-		defines "ZERO_DEBUG"
-		runtime "Debug"
-		symbols "On"
-
-	filter "configurations:Release"
-		defines "ZERO_RELEASE"
-		runtime "Release"
-		symbols "On"
-
-	filter "configurations:Dist"
-		defines "ZERO_DIST"
-		runtime "Release"
-		symbols "On"
+include "Zero"
+include "Sandbox"
+include "Zeronut"
