@@ -1,8 +1,9 @@
 include "./vendor/premake/premake_customization/solution_items.lua"
+include "Dependencies.lua"
 
 workspace "Zero"
 	architecture "x86_64"
-	startproject "Zeronut"
+	startproject "ZeroEditor"
 
 	configurations
 	{
@@ -23,22 +24,21 @@ workspace "Zero"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
--- Include directories relative to root folder (solution directory)
-IncludeDir = {}
-IncludeDir["GLFW"] = "%{wks.location}/Zero/vendor/GLFW/include"
-IncludeDir["Glad"] = "%{wks.location}/Zero/vendor/Glad/include"
-IncludeDir["ImGui"] = "%{wks.location}/Zero/vendor/imgui"
-IncludeDir["glm"] = "%{wks.location}/Zero/vendor/glm"
-IncludeDir["stb_image"] = "%{wks.location}/Zero/vendor/stb_image"
-IncludeDir["entt"] = "%{wks.location}/Zero/vendor/entt/include"
-
 group "Dependencies"
 	include "vendor/premake"
+	include "Zero/vendor/Box2D"
 	include "Zero/vendor/GLFW"
 	include "Zero/vendor/Glad"
+	include "Zero/vendor/msdf-atlas-gen"
 	include "Zero/vendor/imgui"
+	include "Zero/vendor/yaml-cpp"
 group ""
 
-include "Zero"
-include "Sandbox"
-include "Zeronut"
+group "Core"
+	include "Zero"
+	include "ZeroScriptCore"
+group ""
+
+group "Tools"
+	include "ZeroEditor"
+group ""

@@ -227,8 +227,8 @@ namespace Zero {
 
 #define ZERO_PROFILE_BEGIN_SESSION(name, filepath) ::Zero::Instrumentor::Get().BeginSession(name, filepath)
 #define ZERO_PROFILE_END_SESSION() ::Zero::Instrumentor::Get().EndSession()
-#define ZERO_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
-											   ::Hazel::InstrumentationTimer timer##line(fixedName##line.Data)
+#define ZERO_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::Zero::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+											   ::Zero::InstrumentationTimer timer##line(fixedName##line.Data)
 #define ZERO_PROFILE_SCOPE_LINE(name, line) ZERO_PROFILE_SCOPE_LINE2(name, line)
 #define ZERO_PROFILE_SCOPE(name) ZERO_PROFILE_SCOPE_LINE(name, __LINE__)
 #define ZERO_PROFILE_FUNCTION() ZERO_PROFILE_SCOPE(ZERO_FUNC_SIG)

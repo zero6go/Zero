@@ -1,7 +1,10 @@
 # Binaries
 **/bin/
-!vendor/bin/premake/
 bin-int/
+Intermediates/
+
+# Zero files
+*.log
 
 # Visual Studio files and folder
 .vs/
@@ -9,3 +12,9 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+**.csproj
+
+# Directories
+Zero/vendor/VulkanSDK
+ZeroEditor/assets/cache
+scripts/__pycache__

@@ -4,22 +4,28 @@
 #include "Zero/Core/Log.h"
 
 #include "Zero/Renderer/Renderer.h"
+#include "Zero/Scripting/ScriptEngine.h"
 
 #include "Zero/Core/Input.h"
-
-#include <GLFW/glfw3.h>
+#include "Zero/Utils/PlatformUtils.h"
 
 namespace Zero {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name)
+	Application::Application(const ApplicationSpecification& specification)
+		: m_Specification(specification)
 	{
 		ZERO_PROFILE_FUNCTION();
 
 		ZERO_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-		m_Window = Window::Create(WindowProps(name));
+		
+		// Set working directory here
+		if (!m_Specification.WorkingDirectory.empty())
+			std::filesystem::current_path(m_Specification.WorkingDirectory);
+
+		m_Window = Window::Create(WindowProps(m_Specification.Name));
 		m_Window->SetEventCallback(ZERO_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
@@ -32,6 +38,7 @@ namespace Zero {
 	{
 		ZERO_PROFILE_FUNCTION();
 
+		ScriptEngine::Shutdown();
 		Renderer::Shutdown();
 	}
 
@@ -54,6 +61,13 @@ namespace Zero {
 	void Application::Close()
 	{
 		m_Running = false;
+	}
+
+	void Application::SubmitToMainThread(const std::function<void()>& function)
+	{
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		m_MainThreadQueue.emplace_back(function);
 	}
 
 	void Application::OnEvent(Event& e)
@@ -80,9 +94,11 @@ namespace Zero {
 		{
 			ZERO_PROFILE_SCOPE("RunLoop");
 
-			float time = (float)glfwGetTime();
+			float time = Time::GetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
+
+			ExecuteMainThreadQueue();
 
 			if (!m_Minimized)
 			{
@@ -127,6 +143,16 @@ namespace Zero {
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
 		return false;
+	}
+
+	void Application::ExecuteMainThreadQueue()
+	{
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		for (auto& func : m_MainThreadQueue)
+			func();
+
+		m_MainThreadQueue.clear();
 	}
 
 }

@@ -15,10 +15,29 @@ int main(int argc, char** argv);
 
 namespace Zero {
 
+	struct ApplicationCommandLineArgs
+	{
+		int Count = 0;
+		char** Args = nullptr;
+
+		const char* operator[](int index) const
+		{
+			ZERO_CORE_ASSERT(index < Count);
+			return Args[index];
+		}
+	};
+
+	struct ApplicationSpecification
+	{
+		std::string Name = "Zero Application";
+		std::string WorkingDirectory;
+		ApplicationCommandLineArgs CommandLineArgs;
+	};
+
 	class Application
 	{
 	public:
-		Application(const std::string& name = "Zero App");
+		Application(const ApplicationSpecification& specification);
 		virtual ~Application();
 
 		void OnEvent(Event& e);
@@ -33,23 +52,33 @@ namespace Zero {
 		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		static Application& Get() { return *s_Instance; }
+
+		const ApplicationSpecification& GetSpecification() const { return m_Specification; }
+
+		void SubmitToMainThread(const std::function<void()>& function);
 	private:
 		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
+
+		void ExecuteMainThreadQueue();
 	private:
-		std::unique_ptr<Window> m_Window;
+		ApplicationSpecification m_Specification;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		bool m_Minimized = false;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
+
+		std::vector<std::function<void()>> m_MainThreadQueue;
+		std::mutex m_MainThreadQueueMutex;
 	private:
 		static Application* s_Instance;
 		friend int ::main(int argc, char** argv);
 	};
 
 	//在客户端中定义
-	Application* CreateApplication();
+	Application* CreateApplication(ApplicationCommandLineArgs args);
 
 }

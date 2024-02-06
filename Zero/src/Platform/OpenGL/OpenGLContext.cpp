@@ -25,7 +25,7 @@ namespace Zero {
 		ZERO_CORE_INFO("  Renderer: {0}", (const char*)glGetString(GL_RENDERER));
 		ZERO_CORE_INFO("  Version: {0}", (const char*)glGetString(GL_VERSION));
 
-		ZERO_CORE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "Hazel requires at least OpenGL version 4.5!");
+		ZERO_CORE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "Zero requires at least OpenGL version 4.5!");
 	}
 
 	void OpenGLContext::SwapBuffers()

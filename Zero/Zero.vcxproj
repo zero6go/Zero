@@ -77,11 +77,11 @@
       <PrecompiledHeaderFile>zpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;ZERO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\filewatch;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\stb_image;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;vendor\mono\lib\Debug\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;vendor\VulkanSDK\Lib\shaderc_sharedd.lib;vendor\VulkanSDK\Lib\spirv-cross-cored.lib;vendor\VulkanSDK\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,21 +100,24 @@
       <PrecompiledHeaderFile>zpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;ZERO_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\filewatch;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\stb_image;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;vendor\mono\lib\Release\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;vendor\VulkanSDK\Lib\shaderc_shared.lib;vendor\VulkanSDK\Lib\spirv-cross-core.lib;vendor\VulkanSDK\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -123,21 +126,24 @@
       <PrecompiledHeaderFile>zpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;ZERO_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\filewatch;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\stb_image;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;vendor\mono\lib\Dist\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;vendor\VulkanSDK\Lib\shaderc_shared.lib;vendor\VulkanSDK\Lib\spirv-cross-core.lib;vendor\VulkanSDK\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -147,12 +153,16 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Zero.h" />
     <ClInclude Include="src\Zero\Core\Application.h" />
+    <ClInclude Include="src\Zero\Core\Assert.h" />
     <ClInclude Include="src\Zero\Core\Base.h" />
+    <ClInclude Include="src\Zero\Core\Buffer.h" />
     <ClInclude Include="src\Zero\Core\EntryPoint.h" />
+    <ClInclude Include="src\Zero\Core\FileSystem.h" />
     <ClInclude Include="src\Zero\Core\Input.h" />
     <ClInclude Include="src\Zero\Core\KeyCodes.h" />
     <ClInclude Include="src\Zero\Core\Layer.h" />
@@ -160,7 +170,9 @@
     <ClInclude Include="src\Zero\Core\Log.h" />
     <ClInclude Include="src\Zero\Core\MouseCodes.h" />
     <ClInclude Include="src\Zero\Core\PlatformDetection.h" />
+    <ClInclude Include="src\Zero\Core\Timer.h" />
     <ClInclude Include="src\Zero\Core\Timestep.h" />
+    <ClInclude Include="src\Zero\Core\UUID.h" />
     <ClInclude Include="src\Zero\Core\Window.h" />
     <ClInclude Include="src\Zero\Debug\Instrumentor.h" />
     <ClInclude Include="src\Zero\Events\ApplicationEvent.h" />
@@ -168,10 +180,17 @@
     <ClInclude Include="src\Zero\Events\KeyEvent.h" />
     <ClInclude Include="src\Zero\Events\MouseEvent.h" />
     <ClInclude Include="src\Zero\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Zero\Math\Math.h" />
+    <ClInclude Include="src\Zero\Physics\Physics2D.h" />
+    <ClInclude Include="src\Zero\Project\Project.h" />
+    <ClInclude Include="src\Zero\Project\ProjectSerializer.h" />
     <ClInclude Include="src\Zero\Renderer\Buffer.h" />
     <ClInclude Include="src\Zero\Renderer\Camera.h" />
+    <ClInclude Include="src\Zero\Renderer\EditorCamera.h" />
+    <ClInclude Include="src\Zero\Renderer\Font.h" />
     <ClInclude Include="src\Zero\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Zero\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Zero\Renderer\MSDFData.h" />
     <ClInclude Include="src\Zero\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Zero\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Zero\Renderer\RenderCommand.h" />
@@ -180,13 +199,20 @@
     <ClInclude Include="src\Zero\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Zero\Renderer\Shader.h" />
     <ClInclude Include="src\Zero\Renderer\Texture.h" />
+    <ClInclude Include="src\Zero\Renderer\UniformBuffer.h" />
     <ClInclude Include="src\Zero\Renderer\VertexArray.h" />
     <ClInclude Include="src\Zero\Scene\Components.h" />
     <ClInclude Include="src\Zero\Scene\Entity.h" />
     <ClInclude Include="src\Zero\Scene\Scene.h" />
     <ClInclude Include="src\Zero\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Zero\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Zero\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Zero\Scripting\ScriptEngine.h" />
+    <ClInclude Include="src\Zero\Scripting\ScriptGlue.h" />
+    <ClInclude Include="src\Zero\UI\UI.h" />
+    <ClInclude Include="src\Zero\Utils\PlatformUtils.h" />
     <ClInclude Include="src\zpch.h" />
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -611,17 +637,26 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Zero\Core\Application.cpp" />
+    <ClCompile Include="src\Zero\Core\FileSystem.cpp" />
     <ClCompile Include="src\Zero\Core\Layer.cpp" />
     <ClCompile Include="src\Zero\Core\LayerStack.cpp" />
     <ClCompile Include="src\Zero\Core\Log.cpp" />
+    <ClCompile Include="src\Zero\Core\UUID.cpp" />
     <ClCompile Include="src\Zero\Core\Window.cpp" />
     <ClCompile Include="src\Zero\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Zero\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Zero\Math\Math.cpp" />
+    <ClCompile Include="src\Zero\Project\Project.cpp" />
+    <ClCompile Include="src\Zero\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Zero\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Zero\Renderer\EditorCamera.cpp" />
+    <ClCompile Include="src\Zero\Renderer\Font.cpp" />
     <ClCompile Include="src\Zero\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Zero\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Zero\Renderer\OrthographicCamera.cpp" />
@@ -632,16 +667,26 @@
     <ClCompile Include="src\Zero\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Zero\Renderer\Shader.cpp" />
     <ClCompile Include="src\Zero\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Zero\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="src\Zero\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Zero\Scene\Entity.cpp" />
     <ClCompile Include="src\Zero\Scene\Scene.cpp" />
     <ClCompile Include="src\Zero\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\Zero\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\Zero\Scripting\ScriptEngine.cpp" />
+    <ClCompile Include="src\Zero\Scripting\ScriptGlue.cpp" />
     <ClCompile Include="src\zpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="vendor\Box2D\Box2D.vcxproj">
+      <Project>{A434E80C-1049-10BE-D9CA-B31D459E0CEF}</Project>
+    </ProjectReference>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
     </ProjectReference>
@@ -650,6 +695,12 @@
     </ProjectReference>
     <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\msdf-atlas-gen\msdf-atlas-gen.vcxproj">
+      <Project>{38BD587B-248B-4C81-0D1F-BDA7F98B28E6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

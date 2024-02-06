@@ -18,14 +18,8 @@
 	#define ZERO_DEBUGBREAK()
 #endif
 
-
-#ifdef ZERO_ENABLE_ASSERTS
-	#define ZERO_ASSERT(x, ...) { if(!(x)) { ZERO_ERROR("Assertion Failed: {0}", __VA_ARGS__); ZERO_DEBUGBREAK(); } }
-	#define ZERO_CORE_ASSERT(x, ...) { if(!(x)) { ZERO_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); ZERO_DEBUGBREAK(); } }
-#else
-#define ZERO_ASSERT(x, ...)
-#define ZERO_CORE_ASSERT(x, ...)
-#endif
+#define ZERO_EXPAND_MACRO(x) x
+#define ZERO_STRINGIFY_MACRO(x) #x
 
 #define BIT(x) (1 << x)
 
@@ -50,3 +44,6 @@ namespace Zero {
 	}
 
 }
+
+#include "Zero/Core/Log.h"
+#include "Zero/Core/Assert.h"

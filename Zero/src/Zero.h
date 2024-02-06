@@ -7,6 +7,7 @@
 #include "Zero/Core/Application.h"
 #include "Zero/Core/Layer.h"
 #include "Zero/Core/Log.h"
+#include "Zero/Core/Assert.h"
 
 #include "Zero/Core/Timestep.h"
 
@@ -21,6 +22,8 @@
 #include "Zero/Scene/Entity.h"
 #include "Zero/Scene/ScriptableEntity.h"
 #include "Zero/Scene/Components.h"
+
+#include "Zero/Project/Project.h"
 
 // ---Renderer------------------------
 #include "Zero/Renderer/Renderer.h"
